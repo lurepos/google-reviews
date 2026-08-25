@@ -1,0 +1,11 @@
+services:
+  review-monitor:
+    build: .
+    container_name: responder
+    restart: unless-stopped
+    volumes:
+      - ./credentials:/app/credentials:ro
+      - ./data:/app/data
+    env_file: .env
+    environment:
+      - PYTHONUNBUFFERED=1
