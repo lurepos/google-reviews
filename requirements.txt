@@ -3,5 +3,4 @@ openai
 requests
 python-dotenv
 schedule
-pandas
 loguru
