@@ -1,10 +1,6 @@
-FROM python:3.11-slim
-
+FROM node:24-slim
 WORKDIR /app
-COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
-
-COPY src/ .
-COPY .env .
-
-CMD ["python", "main.py"]
+COPY . .
+RUN npm install -g pnpm && pnpm install --frozen-lockfile && pnpm --filter google-reviews-backend build
+EXPOSE 8080
+CMD ["pnpm", "--filter", "google-reviews-backend", "start"]

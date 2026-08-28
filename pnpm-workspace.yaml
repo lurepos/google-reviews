@@ -1,0 +1,7 @@
+packages:
+  - 'nude/packages/*'
+  - 'backend'
+  - 'google-reviews-mobile'
+allowBuilds:
+  esbuild: true
+  msgpackr-extract: true

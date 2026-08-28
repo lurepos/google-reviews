@@ -1,11 +1,29 @@
 services:
-  review-monitor:
-    build: .
-    container_name: responder
+  db:
+    image: postgres:17-alpine
+    container_name: google-reviews-db
     restart: unless-stopped
-    volumes:
-      - ./credentials:/app/credentials:ro
-      - ./data:/app/data
-    env_file: .env
     environment:
-      - PYTHONUNBUFFERED=1
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  backend:
+    build: .
+    container_name: google-reviews-backend
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    environment:
+      - DATABASE_URL=postgres://postgres:postgres@db:5432/postgres
+      - PORT=8080
+      - HANKO_API_URL=https://mock.hanko.io
+    depends_on:
+      - db
+
+volumes:
+  pgdata:
